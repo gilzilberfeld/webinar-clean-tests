@@ -30,7 +30,7 @@ class ControllerTest {
 		calcparams.addSecond(2);
 		
 		String json = calcparams.toJson();
-		MvcResult result = mvc.perform(post("/calc/add")
+		MvcResult result = mvc.perform(post("/root/calculate")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 				.andExpect(status().isOk())

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import testingil.webinar.cleantests.CalculatorParams;
 
-class CleanTests {
+class CommonSetup {
 
 	private CalculatorParams calcParams;
 	private HttpHeaders headers;
@@ -30,29 +30,34 @@ class CleanTests {
 	    restTemplate = new RestTemplate();
 	}
 	
+	// Check that we can add two numbers 
+	// and return the right result as a string
 	@Test
-	void add_two_numbers_and_calculate_result() throws JsonProcessingException {
+	void test_add() throws Exception {
+
 		calcParams.addFirst(3);
 		calcParams.addSecond(4);
 		
 	    HttpEntity<String> request = 
 			      new HttpEntity<String>(calcParams.toJson(), headers);
 
-	    String result = restTemplate.postForObject("http://localhost:8888/calc/add", 
+	    String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
 				request, String.class);
 
 		assertThat(result, is("7"));
 	}
 
+	// Check that we can add two numbers 
+	// and return the right result as a string
 	@Test
-	void add_two_negative_numbers_and_calculate_result() throws Exception {
+	void test_add_minus() throws Exception {
 		calcParams.addFirst(-5);
 		calcParams.addSecond(-4);
 		
 	    HttpEntity<String> request = 
 			      new HttpEntity<String>(calcParams.toJson(), headers);
 
-	    String result = restTemplate.postForObject("http://localhost:8888/calc/add", 
+	    String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
 				request, String.class);
 
 		assertThat(result, is("-9"));
