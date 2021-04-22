@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import testingil.webinar.cleantests.CalculatorParams;
+import testingil.webinar.cleantests.Ops;
 
 class CommonSetup {
 
@@ -28,6 +29,7 @@ class CommonSetup {
 		headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    restTemplate = new RestTemplate();
+	    calcParams.setOp(Ops.Plus);
 	}
 	
 	// Check that we can add two numbers 
@@ -35,8 +37,8 @@ class CommonSetup {
 	@Test
 	void test_add() throws Exception {
 
-		calcParams.addFirst(3);
-		calcParams.addSecond(4);
+		calcParams.setFirst(3);
+		calcParams.setSecond(4);
 		
 	    HttpEntity<String> request = 
 			      new HttpEntity<String>(calcParams.toJson(), headers);
@@ -51,8 +53,8 @@ class CommonSetup {
 	// and return the right result as a string
 	@Test
 	void test_add_minus() throws Exception {
-		calcParams.addFirst(-5);
-		calcParams.addSecond(-4);
+		calcParams.setFirst(-5);
+		calcParams.setSecond(-4);
 		
 	    HttpEntity<String> request = 
 			      new HttpEntity<String>(calcParams.toJson(), headers);

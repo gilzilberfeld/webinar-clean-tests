@@ -12,7 +12,17 @@ public class CalculatorController {
 
 	@PostMapping(Consts.CALCULATE)
     String add(@RequestBody CalculatorParams calcParams) {
-        int result = calcParams.getFirst() + calcParams.getSecond();
-		return Integer.toString(result);
+        String result ="";
+        
+        switch (calcParams.getOp()) {
+        case Plus:
+        	result = Integer.toString(calcParams.getFirst() + calcParams.getSecond());
+        	break;
+		default:
+			result = "Error";
+			break;
+        	
+        }
+		return (result);
     }
 }

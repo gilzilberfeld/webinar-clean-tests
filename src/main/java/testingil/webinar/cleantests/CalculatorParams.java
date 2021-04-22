@@ -7,12 +7,13 @@ public class CalculatorParams {
 
 	private int first;
 	private int second;
+	private Ops op;
 
-	public void addFirst(int firstParam) {
+	public void setFirst(int firstParam) {
 		this.first = firstParam;
 	}
 
-	public void addSecond(int secondParam) {
+	public void setSecond(int secondParam) {
 		this.second = secondParam;
 	}
 
@@ -24,10 +25,18 @@ public class CalculatorParams {
 		return second;
 	}
 	
+
+	public void setOp (Ops op) {
+		this.op = op;
+	}
+	
+	public Ops getOp() {
+		return this.op;
+	}
+
 	public String toJson() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(this);
 	}
-
 
 }

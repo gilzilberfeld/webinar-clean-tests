@@ -26,8 +26,9 @@ class ControllerTest {
 				new CalculatorController()).build();
 		
 		CalculatorParams calcparams = new CalculatorParams();
-		calcparams.addFirst(1);
-		calcparams.addSecond(2);
+		calcparams.setFirst(1);
+		calcparams.setSecond(2);
+		calcparams.setOp(Ops.Plus);
 		
 		String json = calcparams.toJson();
 		MvcResult result = mvc.perform(post("/root/calculate")
@@ -36,8 +37,6 @@ class ControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		assertThat(result.getResponse().getContentAsString(), is("3"));
-				
-				
 	}
 
 }

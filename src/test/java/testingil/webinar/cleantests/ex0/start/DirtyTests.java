@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import testingil.webinar.cleantests.CalculatorParams;
+import testingil.webinar.cleantests.Ops;
 
 
 class DirtyTests {
@@ -21,8 +22,9 @@ class DirtyTests {
 	@Test
 	void test_add() throws Exception {
 		CalculatorParams calcParams =new CalculatorParams();
-		calcParams.addFirst(3);
-		calcParams.addSecond(4);
+		calcParams.setFirst(3);
+		calcParams.setSecond(4);
+		calcParams.setOp(Ops.Plus);
 		
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
@@ -42,8 +44,10 @@ class DirtyTests {
 	@Test
 	void test_add_minus() throws Exception {
 		CalculatorParams calcParams =new CalculatorParams();
-		calcParams.addFirst(-5);
-		calcParams.addSecond(-4);
+		
+		calcParams.setFirst(-5);
+		calcParams.setSecond(-4);
+		calcParams.setOp(Ops.Plus);
 		
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
