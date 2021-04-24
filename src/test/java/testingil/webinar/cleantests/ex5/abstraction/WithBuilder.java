@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import testingil.webinar.cleantests.CalculatorParams;
 import testingil.webinar.cleantests.Consts;
@@ -25,6 +26,7 @@ class WithBuilder {
 	private HttpHeaders headers;
 	private RestTemplate restTemplate;
 	private CalcParamBuilder paramBuilder;
+	private ObjectMapper mapper;
 
 	@BeforeEach
 	public void setup() {
@@ -33,23 +35,25 @@ class WithBuilder {
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    restTemplate = new RestTemplate();
 		paramBuilder = new CalcParamBuilder();
-
+	    mapper = new ObjectMapper();
 	}
 	
 	@Test
 	void add_two_numbers_and_calculate_result() throws JsonProcessingException {
-		calcParams = paramBuilder.withFirst(3).withSecond(4).build(); 
+		calcParams = paramBuilder.withFirst(3)
+				.withSecond(4).build(); 
 		
-	    String result = callAdd(URL);
+	    String result = callCalculate(URL);
 		assertThat(result, is("7"));
 	}
 
 
 	@Test
 	void add_two_negative_numbers_and_calculate_result() throws Exception {
-		calcParams = paramBuilder.withFirst(-5).withSecond(-4).build();
+		calcParams = paramBuilder.withFirst(-5)
+				.withSecond(-4).build();
 		
-	    String result = callAdd(URL);
+	    String result = callCalculate(URL);
 		assertThat(result, is("-9"));
 		
 	}
@@ -61,14 +65,14 @@ class WithBuilder {
 								.withOps(Ops.Minus)
 								.build();
 		
-	    String result = callAdd(URL);
-		assertThat(result, is("5"));
+	    String result = callCalculate(URL);
+		assertThat(result, is("16"));
 	}
 
-	private String callAdd(String url) throws JsonProcessingException {
-		HttpEntity<String> request = 
-				new HttpEntity<String>(calcParams.toJson(), headers);
-		
+	private String callCalculate(String url) throws JsonProcessingException {
+		String json = mapper.writeValueAsString(calcParams);
+		HttpEntity<String> request = new HttpEntity<String>(json, headers);
+
 		String result = restTemplate.postForObject(url, 
 				request, String.class);
 		return result;

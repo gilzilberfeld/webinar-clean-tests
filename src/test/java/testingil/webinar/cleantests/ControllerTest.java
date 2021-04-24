@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import testingil.webinar.cleantests.CalculatorController;
 import testingil.webinar.cleantests.CalculatorParams;
 
@@ -30,7 +32,9 @@ class ControllerTest {
 		calcparams.setSecond(2);
 		calcparams.setOp(Ops.Plus);
 		
-		String json = calcparams.toJson();
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(calcparams);
+
 		MvcResult result = mvc.perform(post("/root/calculate")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))

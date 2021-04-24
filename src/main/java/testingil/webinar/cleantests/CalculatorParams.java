@@ -34,9 +34,4 @@ public class CalculatorParams {
 		return this.op;
 	}
 
-	public String toJson() throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(this);
-	}
-
 }

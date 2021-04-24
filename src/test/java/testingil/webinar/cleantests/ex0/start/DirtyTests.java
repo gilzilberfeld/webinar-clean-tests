@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import testingil.webinar.cleantests.CalculatorParams;
 import testingil.webinar.cleantests.Ops;
@@ -29,8 +30,11 @@ class DirtyTests {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(calcParams);
+		
 	    HttpEntity<String> request = 
-			      new HttpEntity<String>(calcParams.toJson(), headers);
+			      new HttpEntity<String>(json, headers);
 			    
 		RestTemplate restTemplate  = new RestTemplate();
 		String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
@@ -52,8 +56,11 @@ class DirtyTests {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 		
-	    HttpEntity<String> request = 
-			      new HttpEntity<String>(calcParams.toJson(), headers);
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(calcParams);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(json, headers);
 			    
 		RestTemplate restTemplate  = new RestTemplate();
 		String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
@@ -62,5 +69,31 @@ class DirtyTests {
 		assertThat(result, is("-9"));
 		
 	}
+
+	// subtract numbers
+	@Test
+	void test_minus() throws Exception {
+		CalculatorParams calcParams =new CalculatorParams();
+
+		calcParams.setFirst(20);
+		calcParams.setSecond(4);
+		calcParams.setOp(Ops.Minus);
+
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = mapper.writeValueAsString(calcParams);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(json, headers);
+
+		RestTemplate restTemplate  = new RestTemplate();
+	    String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
+				request, String.class);
+
+		assertThat(result, is("16"));
+	}
+
 
 }

@@ -2,15 +2,9 @@ package testingil.webinar.cleantests.ex6.abstraction;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -22,25 +16,19 @@ class WithUtils {
 
 	private String URL = "http://localhost:8888";
 	private CalculatorParams calcParams;
-	private HttpHeaders headers;
-	private RestTemplate restTemplate;
 	private CalcParamBuilder paramBuilder;
 
 	@BeforeEach
 	public void setup() {
 		URL += Consts.ROOT + Consts.CALCULATE;
-		headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    restTemplate = new RestTemplate();
-		paramBuilder = new CalcParamBuilder();
-
+	    paramBuilder = new CalcParamBuilder();
 	}
 	
 	@Test
-	void add_two_numbers_and_calculate_result() throws JsonProcessingException {
+	void add_two_numbers_and_calculate_result() throws Exception {
 		calcParams = paramBuilder.withFirst(3).withSecond(4).build(); 
 		
-	    String result = callAdd(URL);
+	    String result = callCalculate(URL);
 		assertThat(result, is("7"));
 	}
 
@@ -49,7 +37,7 @@ class WithUtils {
 	void add_two_negative_numbers_and_calculate_result() throws Exception {
 		calcParams = paramBuilder.withFirst(-5).withSecond(-4).build();
 		
-	    String result = callAdd(URL);
+	    String result = callCalculate(URL);
 		assertThat(result, is("-9"));
 		
 	}
@@ -61,16 +49,13 @@ class WithUtils {
 								.withOps(Ops.Minus)
 								.build();
 		
-	    String result = callAdd(URL);
-		assertThat(result, is("5"));
+	    String result = callCalculate(URL);
+		assertThat(result, is("16"));
 	}
 
-	private String callAdd(String url) throws JsonProcessingException {
-		HttpEntity<String> request = 
-				new HttpEntity<String>(calcParams.toJson(), headers);
-		
-		String result = restTemplate.postForObject(url, 
-				request, String.class);
+	public String callCalculate(String url) throws Exception {
+		APICallWrapper apiCall = new APICallWrapper();
+		String result = apiCall.postWithBody(url, calcParams);
 		return result;
 	}
 }

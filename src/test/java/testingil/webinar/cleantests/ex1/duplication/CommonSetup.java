@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import testingil.webinar.cleantests.CalculatorParams;
 import testingil.webinar.cleantests.Ops;
@@ -22,6 +23,7 @@ class CommonSetup {
 	private CalculatorParams calcParams;
 	private HttpHeaders headers;
 	private RestTemplate restTemplate;
+	private ObjectMapper mapper;
 
 	@BeforeEach
 	public void setup() {
@@ -29,19 +31,20 @@ class CommonSetup {
 		headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    restTemplate = new RestTemplate();
-	    calcParams.setOp(Ops.Plus);
+	    mapper = new ObjectMapper();
 	}
 	
 	// Check that we can add two numbers 
 	// and return the right result as a string
 	@Test
 	void test_add() throws Exception {
-
 		calcParams.setFirst(3);
 		calcParams.setSecond(4);
+	    calcParams.setOp(Ops.Plus);
 		
+	    String json = mapper.writeValueAsString(calcParams);
 	    HttpEntity<String> request = 
-			      new HttpEntity<String>(calcParams.toJson(), headers);
+			      new HttpEntity<String>(json, headers);
 
 	    String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
 				request, String.class);
@@ -55,9 +58,11 @@ class CommonSetup {
 	void test_add_minus() throws Exception {
 		calcParams.setFirst(-5);
 		calcParams.setSecond(-4);
+	    calcParams.setOp(Ops.Plus);
 		
+	    String json = mapper.writeValueAsString(calcParams);
 	    HttpEntity<String> request = 
-			      new HttpEntity<String>(calcParams.toJson(), headers);
+			      new HttpEntity<String>(json, headers);
 
 	    String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
 				request, String.class);
@@ -65,5 +70,22 @@ class CommonSetup {
 		assertThat(result, is("-9"));
 		
 	}
+
+	@Test
+	void test_minus() throws Exception {
+		calcParams.setFirst(20);
+		calcParams.setSecond(4);
+		calcParams.setOp(Ops.Minus);
+
+	    String json = mapper.writeValueAsString(calcParams);
+	    HttpEntity<String> request = 
+			      new HttpEntity<String>(json, headers);
+
+	    String result = restTemplate.postForObject("http://localhost:8888/root/calculate", 
+				request, String.class);
+
+		assertThat(result, is("16"));
+	}
+
 
 }
