@@ -21,7 +21,7 @@ import testingil.webinar.cleantests.Ops;
 
 class WithBuilder {
 
-	private String URL = "http://localhost:8888";
+	private String LOCAL_URL = "http://localhost:8888";
 	private CalculatorParams calcParams;
 	private HttpHeaders headers;
 	private RestTemplate restTemplate;
@@ -30,7 +30,7 @@ class WithBuilder {
 
 	@BeforeEach
 	public void setup() {
-		URL += Consts.ROOT + Consts.CALCULATE;
+		LOCAL_URL += Consts.ROOT + Consts.CALCULATE;
 		headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    restTemplate = new RestTemplate();
@@ -39,11 +39,11 @@ class WithBuilder {
 	}
 	
 	@Test
-	void add_two_numbers_and_calculate_result() throws JsonProcessingException {
+	void add_two_numbers_and_calculate_result() throws Exception {
 		calcParams = paramBuilder.withFirst(3)
 				.withSecond(4).build(); 
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("7"));
 	}
 
@@ -53,7 +53,7 @@ class WithBuilder {
 		calcParams = paramBuilder.withFirst(-5)
 				.withSecond(-4).build();
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("-9"));
 		
 	}
@@ -65,15 +65,15 @@ class WithBuilder {
 								.withOps(Ops.Minus)
 								.build();
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("16"));
 	}
 
-	private String callCalculate(String url) throws JsonProcessingException {
+	private String callCalculate() throws Exception {
 		String json = mapper.writeValueAsString(calcParams);
 		HttpEntity<String> request = new HttpEntity<String>(json, headers);
 
-		String result = restTemplate.postForObject(url, 
+		String result = restTemplate.postForObject(LOCAL_URL, 
 				request, String.class);
 		return result;
 	}

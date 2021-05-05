@@ -21,7 +21,7 @@ import testingil.webinar.cleantests.Ops;
 
 class LiteralsFromCode {
 
-	private String URL = "http://localhost:8888";
+	private String LOCAL_URL = "http://localhost:8888";
 	private CalculatorParams calcParams;
 	private HttpHeaders headers;
 	private RestTemplate restTemplate;
@@ -29,7 +29,7 @@ class LiteralsFromCode {
 
 	@BeforeEach
 	public void setup() {
-		URL += Consts.ROOT + Consts.CALCULATE;
+		LOCAL_URL += Consts.ROOT + Consts.CALCULATE;
 		calcParams = new CalculatorParams();
 		headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
@@ -43,7 +43,7 @@ class LiteralsFromCode {
 		calcParams.setSecond(4);
 	    calcParams.setOp(Ops.Plus);
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("7"));
 	}
 	
@@ -53,7 +53,7 @@ class LiteralsFromCode {
 		calcParams.setSecond(-4);
 	    calcParams.setOp(Ops.Plus);
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("-9"));
 		
 	}
@@ -64,15 +64,15 @@ class LiteralsFromCode {
 		calcParams.setSecond(4);
 		calcParams.setOp(Ops.Minus);
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("16"));
 	}
 	
-	private String callCalculate(String url) throws Exception {
+	private String callCalculate() throws Exception {
 		String json = mapper.writeValueAsString(calcParams);
 		HttpEntity<String> request = new HttpEntity<String>(json, headers);
 		
-		String result = restTemplate.postForObject(url, 
+		String result = restTemplate.postForObject(LOCAL_URL, 
 				request, String.class);
 		return result;
 	}

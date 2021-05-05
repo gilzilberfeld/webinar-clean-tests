@@ -12,15 +12,15 @@ import testingil.webinar.cleantests.CalculatorParams;
 import testingil.webinar.cleantests.Consts;
 import testingil.webinar.cleantests.Ops;
 
-class WithUtils {
+class WithAPICallWrapper {
 
-	private String URL = "http://localhost:8888";
+	private String LOCAL_URL = "http://localhost:8888";
 	private CalculatorParams calcParams;
 	private CalcParamBuilder paramBuilder;
 
 	@BeforeEach
 	public void setup() {
-		URL += Consts.ROOT + Consts.CALCULATE;
+		LOCAL_URL += Consts.ROOT + Consts.CALCULATE;
 	    paramBuilder = new CalcParamBuilder();
 	}
 	
@@ -28,7 +28,7 @@ class WithUtils {
 	void add_two_numbers_and_calculate_result() throws Exception {
 		calcParams = paramBuilder.withFirst(3).withSecond(4).build(); 
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("7"));
 	}
 
@@ -37,7 +37,7 @@ class WithUtils {
 	void add_two_negative_numbers_and_calculate_result() throws Exception {
 		calcParams = paramBuilder.withFirst(-5).withSecond(-4).build();
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("-9"));
 		
 	}
@@ -49,13 +49,13 @@ class WithUtils {
 								.withOps(Ops.Minus)
 								.build();
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("16"));
 	}
 
-	public String callCalculate(String url) throws Exception {
+	public String callCalculate() throws Exception {
 		APICallWrapper apiCall = new APICallWrapper();
-		String result = apiCall.postWithBody(url, calcParams);
+		String result = apiCall.postWithBody(LOCAL_URL, calcParams);
 		return result;
 	}
 }

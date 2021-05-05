@@ -20,7 +20,7 @@ import testingil.webinar.cleantests.Ops;
 
 class LiteralsAsConsts {
 
-	private static final String URL = 
+	private static final String LOCAL_URL = 
 			"http://localhost:8888/root/calculate";
 	private CalculatorParams calcParams;
 	private HttpHeaders headers;
@@ -42,7 +42,7 @@ class LiteralsAsConsts {
 		calcParams.setSecond(4);
 	    calcParams.setOp(Ops.Plus);
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("7"));
 	}
 
@@ -53,9 +53,8 @@ class LiteralsAsConsts {
 		calcParams.setSecond(-4);
 	    calcParams.setOp(Ops.Plus);
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("-9"));
-		
 	}
 
 	@Test
@@ -64,15 +63,15 @@ class LiteralsAsConsts {
 		calcParams.setSecond(4);
 		calcParams.setOp(Ops.Minus);
 		
-	    String result = callCalculate(URL);
+	    String result = callCalculate();
 		assertThat(result, is("16"));
 	}
 	
-	private String callCalculate(String url) throws JsonProcessingException {
+	private String callCalculate() throws JsonProcessingException {
 		String json = mapper.writeValueAsString(calcParams);
 		HttpEntity<String> request = new HttpEntity<String>(json, headers);
 		
-		String result = restTemplate.postForObject(url, 
+		String result = restTemplate.postForObject(LOCAL_URL, 
 				request, String.class);
 		return result;
 	}

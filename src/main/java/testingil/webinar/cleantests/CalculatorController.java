@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class CalculatorController {
 
 	@PostMapping(Consts.CALCULATE)
-    String add(@RequestBody CalculatorParams calcParams) {
+    String calculate(@RequestBody CalculatorParams calcParams) {
         String result ="";
         
         switch (calcParams.getOp()) {
         case Plus:
         	result = Integer.toString(calcParams.getFirst() + calcParams.getSecond());
+        	break;
+        case Minus:
+        	result = Integer.toString(calcParams.getFirst() - calcParams.getSecond());
         	break;
 		default:
 			result = "Error";
