@@ -86,6 +86,4 @@ class CommonSetup {
 
 		assertThat(result, is("16"));
 	}
-
-
 }
