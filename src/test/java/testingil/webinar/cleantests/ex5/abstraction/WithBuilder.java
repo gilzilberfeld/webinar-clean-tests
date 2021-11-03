@@ -21,7 +21,8 @@ import testingil.webinar.cleantests.Ops;
 
 class WithBuilder {
 
-	private String LOCAL_URL = "http://localhost:8888";
+	private final String LOCAL_URL = "http://localhost:8888";
+	private String url;
 	private CalculatorParams calcParams;
 	private HttpHeaders headers;
 	private RestTemplate restTemplate;
@@ -30,7 +31,7 @@ class WithBuilder {
 
 	@BeforeEach
 	public void setup() {
-		LOCAL_URL += Consts.ROOT + Consts.CALCULATE;
+		url = LOCAL_URL + Consts.ROOT + Consts.CALCULATE;
 		headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 	    restTemplate = new RestTemplate();
@@ -73,7 +74,7 @@ class WithBuilder {
 		String json = mapper.writeValueAsString(calcParams);
 		HttpEntity<String> request = new HttpEntity<String>(json, headers);
 
-		String result = restTemplate.postForObject(LOCAL_URL, 
+		String result = restTemplate.postForObject(url,
 				request, String.class);
 		return result;
 	}

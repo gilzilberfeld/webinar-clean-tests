@@ -14,13 +14,14 @@ import testingil.webinar.cleantests.Ops;
 
 class WithAPICallWrapper {
 
-	private String LOCAL_URL = "http://localhost:8888";
+	private final String LOCAL_URL = "http://localhost:8888";
+	private String url;
 	private CalculatorParams calcParams;
 	private CalcParamBuilder paramBuilder;
 
 	@BeforeEach
 	public void setup() {
-		LOCAL_URL += Consts.ROOT + Consts.CALCULATE;
+		url = LOCAL_URL + Consts.ROOT + Consts.CALCULATE;
 	    paramBuilder = new CalcParamBuilder();
 	}
 	
@@ -55,7 +56,7 @@ class WithAPICallWrapper {
 
 	public String callCalculate() throws Exception {
 		APICallWrapper apiCall = new APICallWrapper();
-		String result = apiCall.postWithBody(LOCAL_URL, calcParams);
+		String result = apiCall.postWithBody(url, calcParams);
 		return result;
 	}
 }

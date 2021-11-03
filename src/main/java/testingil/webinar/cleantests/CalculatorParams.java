@@ -1,8 +1,5 @@
 package testingil.webinar.cleantests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class CalculatorParams {
 
 	private int first;
