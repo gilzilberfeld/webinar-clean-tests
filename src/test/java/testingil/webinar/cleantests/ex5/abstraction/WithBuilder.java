@@ -40,7 +40,7 @@ class WithBuilder {
 	}
 	
 	@Test
-	void add_two_numbers_and_calculate_result() throws Exception {
+	void add_two_numbers() throws Exception {
 		calcParams = paramBuilder.withFirst(3)
 				.withSecond(4).build(); 
 		
@@ -50,7 +50,7 @@ class WithBuilder {
 
 
 	@Test
-	void add_two_negative_numbers_and_calculate_result() throws Exception {
+	void add_two_negative_numbers() throws Exception {
 		calcParams = paramBuilder.withFirst(-5)
 				.withSecond(-4).build();
 		

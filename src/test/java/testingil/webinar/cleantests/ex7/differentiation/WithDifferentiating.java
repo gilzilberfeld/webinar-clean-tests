@@ -1,19 +1,19 @@
-package testingil.webinar.cleantests.ex6.abstraction;
+package testingil.webinar.cleantests.ex7.differentiation;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import testingil.webinar.cleantests.CalculatorParams;
+import testingil.webinar.cleantests.Consts;
+import testingil.webinar.cleantests.Ops;
+import testingil.webinar.cleantests.ex6.abstraction.APICallWrapper;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+class WithDifferentiating {
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import testingil.webinar.cleantests.CalculatorParams;
-import testingil.webinar.cleantests.Consts;
-import testingil.webinar.cleantests.Ops;
-
-class WithAPICallWrapper {
-
+	public static final int ANY_NUMBER = 20;
+	public static final int THE_SUBTRUCTOR = 4;
 	private final String LOCAL_URL = "http://localhost:8888";
 	private String url;
 	private CalculatorParams calcParams;
@@ -45,8 +45,8 @@ class WithAPICallWrapper {
 	
 	@Test
 	void subtract_two_numbers() throws Exception {
-		calcParams = paramBuilder.withFirst(20)
-								.withSecond(4)
+		calcParams = paramBuilder.withFirst(ANY_NUMBER)
+								.withSecond(THE_SUBTRUCTOR)
 								.withOps(Ops.Minus)
 								.build();
 		
@@ -55,7 +55,7 @@ class WithAPICallWrapper {
 	}
 
 	public String callCalculate() throws Exception {
-		APICallWrapper apiCall = new APICallWrapper();
+		testingil.webinar.cleantests.ex6.abstraction.APICallWrapper apiCall = new APICallWrapper();
 		String result = apiCall.postWithBody(url, calcParams);
 		return result;
 	}

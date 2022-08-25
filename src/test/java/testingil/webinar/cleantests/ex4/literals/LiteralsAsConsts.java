@@ -37,7 +37,7 @@ class LiteralsAsConsts {
 	}
 	
 	@Test
-	void add_two_numbers_and_calculate_result() throws JsonProcessingException {
+	void add_two_numbers() throws JsonProcessingException {
 		calcParams.setFirst(3);
 		calcParams.setSecond(4);
 	    calcParams.setOp(Ops.Plus);
@@ -48,7 +48,7 @@ class LiteralsAsConsts {
 
 
 	@Test
-	void add_two_negative_numbers_and_calculate_result() throws Exception {
+	void add_two_negative_numbers() throws Exception {
 		calcParams.setFirst(-5);
 		calcParams.setSecond(-4);
 	    calcParams.setOp(Ops.Plus);
@@ -58,7 +58,7 @@ class LiteralsAsConsts {
 	}
 
 	@Test
-	void subtract_two_numbers_and_calculate_result() throws Exception {
+	void subtract_two_numbers() throws Exception {
 		calcParams.setFirst(20);
 		calcParams.setSecond(4);
 		calcParams.setOp(Ops.Minus);
