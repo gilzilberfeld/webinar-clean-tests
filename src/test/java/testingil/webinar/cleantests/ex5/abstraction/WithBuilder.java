@@ -41,8 +41,10 @@ class WithBuilder {
 	
 	@Test
 	void add_two_numbers() throws Exception {
-		calcParams = paramBuilder.withFirst(3)
-				.withSecond(4).build(); 
+		calcParams = paramBuilder
+				.withFirst(3)
+				.withSecond(4)
+				.build();
 		
 	    String result = callCalculate();
 		assertThat(result, is("7"));
@@ -51,8 +53,10 @@ class WithBuilder {
 
 	@Test
 	void add_two_negative_numbers() throws Exception {
-		calcParams = paramBuilder.withFirst(-5)
-				.withSecond(-4).build();
+		calcParams = paramBuilder
+				.withFirst(-5)
+				.withSecond(-4)
+				.build();
 		
 	    String result = callCalculate();
 		assertThat(result, is("-9"));

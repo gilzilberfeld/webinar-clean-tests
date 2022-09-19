@@ -2,17 +2,14 @@ package testingil.webinar.cleantests.ex4.literals;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import testingil.webinar.cleantests.CalculatorParams;
@@ -21,7 +18,7 @@ import testingil.webinar.cleantests.Ops;
 
 class LiteralsFromCode {
 
-	private final String LOCAL_URL = "http://localhost:8888";
+	private final String TEST_LOCAL_URL = "http://localhost:8888";
 	private String url;
 	private CalculatorParams calcParams;
 	private HttpHeaders headers;
@@ -30,7 +27,7 @@ class LiteralsFromCode {
 
 	@BeforeEach
 	public void setup() {
-		url = LOCAL_URL + Consts.ROOT + Consts.CALCULATE;
+		url = TEST_LOCAL_URL + Consts.ROOT + Consts.CALCULATE;
 		calcParams = new CalculatorParams();
 		headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);

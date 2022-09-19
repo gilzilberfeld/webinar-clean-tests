@@ -4,9 +4,9 @@ import testingil.webinar.cleantests.CalculatorParams;
 import testingil.webinar.cleantests.Ops;
 
 public class CalcParamBuilder {
-	
-	private int second=0;
+
 	private int first=0;
+	private int second=0;
 	private Ops op=Ops.Plus;
 
 	public CalcParamBuilder withFirst(int first) {
